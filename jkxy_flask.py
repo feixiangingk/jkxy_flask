@@ -1,3 +1,4 @@
+#coding:utf-8
 from flask import Flask,request,render_template,g
 app = Flask(__name__)
 import base64,random,time,urllib
@@ -56,6 +57,11 @@ def auth_token():
     else:
         return "fail"
 
+#返回指定状态码。以及headers
+@app.route("/book14")
+def book14():
+    #可以返回一个元组，body | 状态码 | headers
+    return "<h3>jkxy_bad request!</h3>",502,{"Accept": "application/xml;"}
 
 
 if __name__ == '__main__':

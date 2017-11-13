@@ -24,7 +24,7 @@ class TestRequest():
 
     def test_token(self):
         URL="http://127.0.0.1:5000/auth_token"
-        token="Z3VmYW46MC43MTUwNTQ1Mjk5NzY6MTUxMDUwNjIwMS44NQ=="
+        token="Z3VmYW46MC4zNDk5MTA4MDEyMDc6MTUxMDU0NjgxMC43"
         response=self.s.get(URL,params={"token":token})
         print response.text
 
