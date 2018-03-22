@@ -4,21 +4,21 @@ app = Flask(__name__)
 import base64,random,time,urllib
 
 
-user={"username":"gufan","pwd":"123456"}
-# @app.before_request
-# def set_up_data():
-#     g.user={"username":"gufan","pwd":"123456"}
+# user={"username":"gufan","pwd":"123456"}
+@app.before_request
+def set_up_data():
+    g.user={"username":"gufan","pwd":"123456"}
 
 def get_token(uid):
     token=base64.b64encode(":".join([str(uid),str(random.random()),str(time.time()+7200)]))
-    user.update({"token":token})
+    g.user.update({"token":token})
     return token
 
 def verify_token(token):
     _token=base64.b64decode(token)
 
     print float(_token.split(":")[-1]),float(time.time())
-    if user.get("token",None)!=token:
+    if g.user.get("token",None)!=token:
         return -1
     if float(_token.split(":")[-1])>=float(time.time()):
         return 1
@@ -28,6 +28,9 @@ def verify_token(token):
 
 @app.route('/')
 def hello_world():
+    print "request.args:",request.args
+    print "request.form:",request.form
+
     return 'Hello World!'
 
 @app.route("/index",methods=["POST","GET"])
@@ -41,7 +44,7 @@ def login():
     decrypt_code=base64.b64decode(encrypt_code)
     username,pwd=decrypt_code.split(":")
     print username,pwd
-    if username==user["username"] and pwd==user["pwd"]:
+    if username==g.user["username"] and pwd==g.user["pwd"]:
         print "login!"
         token=get_token(username)
         return token
@@ -61,8 +64,8 @@ def auth_token():
 @app.route("/book14")
 def book14():
     #可以返回一个元组，body | 状态码 | headers
-    return "<h3>jkxy_bad request!</h3>",502,{"Accept": "application/xml;"}
+    return "<h3>flask demo!</h3>",502,{"Accept": "application/xml;"}
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=7979,debug=True)

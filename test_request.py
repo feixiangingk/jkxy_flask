@@ -24,19 +24,20 @@ class TestRequest():
 
     def test_token(self):
         URL="http://127.0.0.1:5000/auth_token"
-        token="Z3VmYW46MC4zNDk5MTA4MDEyMDc6MTUxMDU0NjgxMC43"
+        token="Z3VmYW46MC4yMzIyNDMxMTA1OTg6MTUxNjc4MTA3Ny41OA=="
         response=self.s.get(URL,params={"token":token})
+        print response.text
+
+    def test_sc_flask(self):
+        URL="http://11.8.37.144:5000/N009/entry"
+        response=self.s.post(URL,data={"a":2})
         print response.text
 
 if __name__=="__main__":
     test=TestRequest()
     # test.test_login()
-    test.test_token()
+    # test.test_token()
+    test.test_sc_flask()
 
 
 
-    #
-    # t1=time.time()
-    # time.sleep(1)
-    # t2=time.time()
-    # print float(t1),float(t2),float(t2)>float(t1)
